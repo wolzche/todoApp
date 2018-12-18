@@ -4,6 +4,9 @@
  */
 (function(window){
     var u = {};
+    var uExtend = {};
+    var baseHtmlPath = '../html/';
+
     var isAndroid = (/android/gi).test(navigator.appVersion);
     var uzStorage = function(){
         var ls = window.localStorage;
@@ -213,7 +216,7 @@
 
             return mark;
         }
-        
+
     };
     u.remove = function(el){
         if(el && el.parentNode){
@@ -331,7 +334,7 @@
                     break;
             }
         }
-        
+
     };
     u.prepend = function(el, html){
         if(!u.isElement(el)){
@@ -582,10 +585,26 @@
     };
 
 /*end*/
-    
+
+    // 自定义公共方法集合
 
     window.$api = u;
+    // 公共方法集合
+    uExtend.fnOpenWinByName = function(windowName) {
+        if(!windowName){
+          return;
+        }
+        api.openWin({
+          name: windowName,
+          url: baseHtmlPath +windowName+'.html',
+          pageParam: {},
+          animation: {
+            type: "fade",
+            duration:300
+          }
+      });
+    };
+
+    window.$mplusFn = uExtend;
 
 })(window);
-
-

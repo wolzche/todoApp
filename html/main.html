@@ -1,71 +1,143 @@
 <!DOCTYPE HTML>
 <html>
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
     <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
-    <title>Hello APP</title>
+    <title>jQuery • TodoMVC</title>
     <link rel="stylesheet" type="text/css" href="../css/api.css" />
-    <style>
-        label {
-            margin: 10px;
-            font-size: 24px;
-        }
-
-        ul {
-            margin-bottom: 10px;
-        }
-
-        ul li {
-            margin: 5px 10px;
-            padding: 5px;
-            color: #000;
-            word-wrap: break-word;
-        }
-    </style>
-</head>
-
+    <link rel="stylesheet" type="text/css" href="../css/aui/2.1/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../css/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <!--todoMVC首页样式-->
+    <link rel="stylesheet" type="text/css" href="../script/thirdpart/todomvc-common/base.css" />
+    <link rel="stylesheet" type="text/css" href="../script/thirdpart/todomvc-app-css/index.css" />
+    <link rel="stylesheet" type="text/css" href="../css/default.css" />
+<head>
 <body>
-    <label>Hello APP</label>
-    <div id='sys-info'></div>
-</body>
-<script type="text/javascript" src="../script/api.js"></script>
-<script type="text/javascript">
-    apiready = function() {
-        var ver = api.version;
-        var sType = api.systemType;
-        var sVer = api.systemVersion;
-        var id = api.deviceId;
-        var model = api.deviceModel;
-        var name = api.deviceName;
-        var cType = api.connectionType;
-        var winName = api.winName;
-        var winWidth = api.winWidth;
-        var winHeight = api.winHeight;
-        var frameName = api.frameName || '';
-        var frameWidth = api.frameWidth || '';
-        var frameHeight = api.frameHeight || '';
 
-        var str = '<ul>';
-        str += '<li>引擎版本信息: ' + ver + '</li>';
-        str += '<li>系统类型: ' + sType + '</li>';
-        str += '<li>系统版本: ' + sVer + '</li>';
-        str += '<li>设备标识: ' + id + '</li>';
-        str += '<li>设备型号: ' + model + '</li>';
-        str += '<li>设备名称: ' + name + '</li>';
-        str += '<li>网络状态: ' + cType + '</li>';
-        str += '<li>主窗口名字: ' + winName + '</li>';
-        str += '<li>主窗口宽度: ' + winWidth + '</li>';
-        str += '<li>主窗口高度: ' + winHeight + '</li>';
-        str += '<li>子窗口名字: ' + frameName + '</li>';
-        str += '<li>子窗口宽度: ' + frameWidth + '</li>';
-        str += '<li>子窗口高度: ' + frameHeight + '</li>';
-        str += '</ul>';
+<div id="index-page">
+<!-- 顶部栏 begin -->
+<header class="aui-bar aui-bar-nav flex-wrap" id="header" style="padding-top:25px;">
+    <a class="aui-btn flex-item" style="font-size:0.8rem;">
+        TodoApp
+    </a>
+    <div class="flex-item spec-item">
+      <div class="header-wrap">
+        <span class="fa fa-user-circle-o"></span>
+      </div>
+      <h1>游客</h1>
+    </div>
+    <a class="aui-btn flex-item select-city-btn" id="goLoginBtn" tapmode>
+        <span style="font-size:0.8rem;">登录/注册</span>
+    </a>
+</header>
+<!--顶部栏 end-->
 
-        $api.byId('sys-info').innerHTML = str;
+<!--中部内容 begin-->
+<section class="todoapp">
+	<header class="header">
+		<!-- <h1>todos</h1> -->
+		<input class="new-todo" placeholder="还有什么没完成的吗?" autofocus>
+	</header>
+	<section class="main">
+		<input id="toggle-all" class="toggle-all" type="checkbox" tapmode>
+		<label for="toggle-all" tapmode>设置全部完成</label>
+		<ul class="todo-list"></ul>
+	</section>
+</section>
+<!--中部内容 end-->
 
-    };
+
+<!--底部栏 begin-->
+<footer class="footer aui-bar aui-bar-tab" id="footer">
+
+</footer>
+<!--底部栏 end-->
+</div>
+<script id="todo-template" type="text/x-handlebars-template">
+	{{#this}}
+	<li {{#if completed}}class="completed"{{/if}} data-id="{{id}}">
+		<div class="view">
+			<input class="toggle" type="checkbox" tapmode {{#if completed}}checked{{/if}}>
+			<label>{{title}}</label>
+			<button class="destroy" tapmode></button>
+		</div>
+		<input class="edit" value="{{title}}">
+	</li>
+{{/this}}
 </script>
+<script id="footer-template" type="text/x-handlebars-template">
+	<span class="todo-count" style="margin-top:0.25rem;" tapmode><strong>{{activeTodoCount}}</strong> {{activeTodoWord}}未完成</span>
+	<ul class="filters">
+		<li>
+			<a {{#eq filter 'all'}}class="selected"{{/eq}} href="#/all" tapmode>全部</a>
+		</li>
+		<li>
+			<a {{#eq filter 'active'}}class="selected"{{/eq}}href="#/active" tapmode>激活</a>
+		</li>
+		<li>
+			<a {{#eq filter 'completed'}}class="selected"{{/eq}}href="#/completed" tapmode>完成</a>
+		</li>
+	</ul>
+	{{#if completedTodos}}<button class="clear-completed" style="margin-top:0.25rem;" tapmode>清除完成</button>{{/if}}
+</script>
+</body>
 
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/thirdpart/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript" src="../script/thirdpart/lodash/4.17.5/lodash.js"></script>
+<!--apicloud rest lib-->
+<!-- <script type="text/javascript" src="../script/apicloud/sms/APICloud-rest.js"></script> -->
+<!-- <script src="../script/thirdpart/todomvc-common/base.js"></script> -->
+<script src="../script/thirdpart/handlebars/dist/handlebars.js"></script>
+<script src="../script/thirdpart/director/build/director.js"></script>
+<script src="../script/todoApp.js"></script>
+<script>
+var header = null;
+var footer = null;
+var headerH = 0;
+var footerH = 0;
+// 公共方法
+// var fnOpenWinByName = $mplusFn.fnOpenWinByName;
+function pageInit() {
+  $("#goLoginBtn").on('click',function(event){
+    // event.preventDefault();
+    api.openFrame({
+      name: 'loginPageFrame',
+      url:'./login.html',
+      pageParam: {},
+      rect:{
+        x:0,
+        y:0,
+        w:'auto',
+        h:'auto'
+      },
+      animation: {
+        type: "movein",
+        subType:"from_bottom",
+        duration:300
+      }
+    });
+  });
+}
+
+if(window.location.href.indexOf('localhost') < 0){
+  //获取页面元素
+  header = $api.byId('header');
+  footer = $api.byId('footer');
+  headerH = $api.offset(header).h;
+  footerH = $api.offset(footer).h;
+
+  apiready = function(){
+    $(document).ready(function(){
+      pageInit();
+    });
+  }
+
+} else {
+  $(document).ready(function(){
+    pageInit();
+  });
+}
+</script>
 </html>

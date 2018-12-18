@@ -1,0 +1,133 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>注册</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/aui/2.1/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../css/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/default.css" />
+  </head>
+  <body>
+    <div id="reg-page-wrap">
+      <!-- 顶部栏 begin -->
+      <header class="aui-bar aui-bar-nav flex-wrap" id="header" style="padding-top:25px;">
+          <a class="aui-btn flex-item backBtn" tapmode id="goBackLoginBtn">
+              <span class="fa fa-arrow-left" style="font-size:1.5rem;"></span>
+          </a>
+          <div class="flex-item spec-item">
+              <div class="aui-title" id="mylocation">
+                  <span>注册</span>
+              </div>
+          </div>
+          <!-- <a class="aui-btn flex-item searchBtn">
+              <span style="font-size:0.8rem;;">客服</span>
+          </a> -->
+      </header>
+      <!--顶部栏 end-->
+
+      <!--注册表单 wrap begin-->
+      <div class="aui-content aui-margin-b-15" style="padding:1.5rem 1.5rem 0 1.5rem;">
+          <ul class="aui-list aui-form-list" style="border-left:1px solid #eee;border-right:1px solid #eee;">
+              <!-- <li class="aui-list-header">list header</li> -->
+              <li class="aui-list-item">
+                  <div class="aui-list-item-inner">
+                      <div class="aui-list-item-label-icon">
+                          <i class="aui-iconfont aui-icon-mobile"></i>
+                      </div>
+                      <div class="aui-list-item-input">
+                          <input type="text" placeholder="手机号/用户名/邮箱" id="username">
+                      </div>
+                  </div>
+              </li>
+              <li class="aui-list-item">
+                  <div class="aui-list-item-inner">
+                      <div class="aui-list-item-label-icon">
+                          <i class="aui-iconfont aui-icon-lock"></i>
+                      </div>
+                      <div class="aui-list-item-input">
+                          <input type="password" placeholder="请输入密码" id="password">
+                      </div>
+                  </div>
+              </li>
+
+              <li class="aui-list-item">
+                  <div class="aui-list-item-inner">
+                      <div class="aui-list-item-label-icon">
+                          <i class="aui-iconfont aui-icon-lock"></i>
+                      </div>
+                      <div class="aui-list-item-input">
+                          <input type="password" placeholder="再次输入密码">
+                      </div>
+                  </div>
+              </li>
+
+          </ul>
+          <div class="login-btn-wrap" style="margin-top:1.5rem;">
+              <div class="aui-btn aui-btn-info aui-btn-block" tapmode onclick="fnRegister()">注册</div>
+          </div>
+
+      </div>
+      <!--注册表单 wrap end-->
+    </div>
+  </body>
+  <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript" src="../script/thirdpart/jquery/3.3.1/jquery.min.js"></script>
+  <script type="text/javascript" src="../script/thirdpart/lodash/4.17.5/lodash.js"></script>
+  <script type="text/javascript">
+    // 注册
+    function fnRegister(){
+      console.log("do register!");
+      var username = $api.byId("username");
+      var password = $api.byId("password");
+      var vusername = $api.val(username);
+      var vpassword = $api.val(password);
+
+      api.ajax({
+        url:'https://d.apicloud.com/mcm/api/user',
+        method:'post',
+        headers:{
+          "X-APICloud-AppId":"A6090669175340",
+          "X-APICloud-AppKey":"E65F2C6F-8D9C-9FF1-1C3D-CEB1412883F4"
+        },
+        data:{
+          values:{
+            username:vusername,
+            password:vpassword
+          }
+        },
+        function(ret,err){
+          if(ret && ret.id){
+            alert("注册成功！");
+          }else{
+            alert("注册失败！");
+          }
+        }
+      });
+    }
+
+    // 页面初始化
+    function pageInit(){
+      $("#goBackLoginBtn").off().on('click',function(event){
+        console.log('reg page click');
+        event.preventDefault();
+        api.closeFrame({
+          name: 'regPageFrame',
+        });
+      });
+    }
+    if(window.location.href.indexOf('localhost') < 0){
+      apiready = function(){
+        $(document).ready(function(){
+          pageInit();
+        });
+      }
+    } else {
+      $(document).ready(function(){
+        pageInit();
+      });
+    }
+  </script>
+</html>

@@ -1,0 +1,112 @@
+/*公共样式*/
+html,body {  font-size:20px !important; height:100%;
+color:#222;
+background-color:#fff;
+max-width:100%;
+min-width:100%;
+}
+
+.mt05{
+  margin-top:0.5rem;
+}
+.mb05{
+  margin-bottom:0.5rem;
+}
+/*#首页=============================================================================================================*/
+#index-page{
+  height:100%;
+}
+
+#index-page header .aui-searchbar{
+  background-color:transparent;
+}
+.select-city-btn{
+  /*text-align:center;*/
+}
+
+.select-city-btn i{
+  margin-left:0.2rem;
+}
+#index-page footer{
+  background-color:#fff;
+  font-size:0.75rem;
+  border-top:1px solid #ddd;
+  height:3rem;
+  box-shadow: 0 -0.5rem 0.5rem -0.5rem rgba(0,0,0,0.2);
+}
+
+#index-page footer .aui-bar-tab-item .fa{
+  font-size:1.3rem;
+  vertical-align: bottom;
+}
+/*顶部导航栏*/
+.flex-wrap{
+  display:flex;
+  justify-content:space-between;
+}
+
+.spec-item{
+  flex-grow: 1;
+}
+
+.spec-item h1{
+  font-size:0.7rem;
+  margin:0 auto 0.5rem auto;
+  line-height:1;
+}
+.spec-item .header-wrap{
+  padding-top:2rem;
+  text-align: center;
+}
+
+.spec-item .header-wrap span{
+  display:inline-block;
+  width:3.5rem;
+  height:3.5rem;
+  font-size:3.5rem;
+  border-radius: 50%;
+}
+
+/*#登录页面=============================================================================================================*/
+#login-page-wrap .backBtn{
+  font-size:1.5rem;
+}
+
+#login-page-wrap .login-btn-wrap{
+  padding:1.5rem;
+}
+
+#login-page-wrap .login-btn-wrap .extra-choose-btn-wrap{
+  padding:0.5rem 0;
+}
+
+#login-page-wrap .hr-divider{
+  height:0;
+  width:100%;
+  border-bottom:1px solid #eee;
+  position:relative;
+}
+#login-page-wrap .hr-divider:before{
+  display:block;
+  content:'或者';
+  width:2.5rem;
+  height:1.5rem;
+  position:absolute;
+  left:calc(50% - 1.25rem);
+  top:-0.75rem;
+  background-color:#fff;
+  z-index:1;
+  text-align:center;
+  color:#ddd;
+}
+
+/*#006 注册页面=============================================================================================================*/
+#reg-page-wrap{
+
+}
+
+/*todoMVC jquery项目原app.css*/
+#main,
+#footer {
+	/*display: none;*/
+}
